@@ -1,6 +1,8 @@
-from lib.get_xlsx import create_xlsx
+x = ['deep', 'dhyan', 'tarus', 'reed']
 
-try:
-    create_xlsx()
-except TypeError:
-    print("Missing PDF Path and/or API Key in setup.json")
+potato = {}
+
+for y in x:
+    potato[y] = "awesome"
+
+print(potato)
