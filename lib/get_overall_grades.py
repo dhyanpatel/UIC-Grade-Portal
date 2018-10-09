@@ -24,7 +24,7 @@ for r in range(nrows):
                 codec = c
                 coder = r
 
-nrows = sheet_1.nrows + sheet_2.nrows + sheet_3.nrows + sheet_4.nrows
+
 
 code_NUM = []
 lab1_Quiz = []
@@ -32,9 +32,16 @@ lab2_Quiz = []
 
 
 r = 0
-for r in range(r, nrows - 10):
+for r in range(r, nrows - coder - 4):
     code_NUM.append(sheet_1.cell_value(coder + 4 + r, codec))
 
+r = 0
+for r in range(r, nrows - coder - 4):
+    lab1_Quiz.append(sheet_1.cell_value(coder + 4 + r, codec + 1))
+
+r = 0
+for r in range(r, nrows - coder - 4):
+    lab2_Quiz.append(sheet_1.cell_value(coder + 4 + r, codec + 2))
 
 print(len(code_NUM))
 print(len(lab1_Quiz))
