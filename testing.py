@@ -1,8 +1,3 @@
-x = ['deep', 'dhyan', 'tarus', 'reed']
+from lib.populate_database import populate
 
-potato = {}
-
-for y in x:
-    potato[y] = "awesome"
-
-print(potato)
+print(populate())
