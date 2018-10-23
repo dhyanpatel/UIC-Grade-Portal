@@ -2,13 +2,13 @@ from flask import Flask
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask import request, redirect, url_for
-from lib.populate_database import populate
+from lib.get_overall_grades import populate
 import json
 
 app = Flask(__name__)
 
 # Database stuff
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test123@localhost/cs141Testing'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'NOT PUSHING THIS ONLINE LOL'
 db = SQLAlchemy(app)
 
 
@@ -39,12 +39,25 @@ def profile(student_code):
 
 @app.route('/post_student', methods = ['POST'])
 def post_student():
-    student_code  = request.form['student_code']
-    dhyan = User(student_code, populate())
-    db.session.add(dhyan)
-    db.session.commit()
+    student_code = request.form['student_code']
     return redirect(url_for('profile', student_code = student_code))
     # return render_template("profile.html", student_code = student_code)
+
+
+@app.route('/instructor_portal')
+def instructor_portal():
+    return render_template('instructor_entry.html')
+
+
+@app.route('/post_instructor', methods = ['POST'])
+def post_instructor():
+    grades = json.loads(populate())
+    for student in grades:
+        sqlStudent = User(student, grades[student])
+        db.session.add(sqlStudent)
+        db.session.commit()
+    return "Grades Updated. Success!"
+
 
 
 if __name__ == '__main__':

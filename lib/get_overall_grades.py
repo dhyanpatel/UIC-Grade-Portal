@@ -2,8 +2,8 @@ import xlrd
 from pprint import pprint
 import json
 
-def dictionary():
-    file_location = "C:\\Users\\Deepp\\PycharmProjects\\CS141_GradeLookup\\lib\\final template.xlsx"
+def populate():
+    file_location = "./lib/final template.xlsx"
     workbook = xlrd.open_workbook(file_location)
 
     sheets = workbook.nsheets
@@ -238,7 +238,7 @@ def dictionary():
                                        'final_grade_inClass': final_grade_inClass[student],
                                        }
 
-    pprint(students)
+    #pprint(students)
     cs141grade = json.dumps(students)
 
     return cs141grade

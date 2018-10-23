@@ -1,3 +1,6 @@
-from lib.populate_database import populate
+from lib.get_overall_grades import populate
+from pprint import pprint
+import json
 
-print(populate())
+for x in json.loads(populate()):
+    print(x)
