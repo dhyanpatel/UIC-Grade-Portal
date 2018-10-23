@@ -8,7 +8,7 @@ import json
 app = Flask(__name__)
 
 # Database stuff
-app.config['SQLALCHEMY_DATABASE_URI'] = 'NOT PUSHING THIS ONLINE LOL'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://asgupert:ghLl1r3FnTG7qgPfntIb3qWbm8bsHiDF@tantor.db.elephantsql.com:5432/asgupert'
 db = SQLAlchemy(app)
 
 
@@ -51,13 +51,15 @@ def instructor_portal():
 
 @app.route('/post_instructor', methods = ['POST'])
 def post_instructor():
+    """Updates the database. Won't work for Initial Population
+    Commented line will work for Initial Population"""
     grades = json.loads(populate())
     for student in grades:
-        sqlStudent = User(student, grades[student])
+        # sqlStudent = User(student, grades[student])
+        sqlStudent = User.query.filter_by(hash = student).first().update(grades[student])
         db.session.add(sqlStudent)
         db.session.commit()
     return "Grades Updated. Success!"
-
 
 
 if __name__ == '__main__':

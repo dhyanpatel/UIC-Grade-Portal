@@ -8,7 +8,11 @@
 
 <h1>{{ student_code }} - Grades</h1>
 
-<p>{{ user.grades }}</p>
+{% for x in user.grades %}
+    {% if user.grades[x] != "" %}
+        <p>{{ x }} - {{ user.grades[x] }}</p>
+    {% endif %}
+{% endfor %}
 
 </body>
 </html>
