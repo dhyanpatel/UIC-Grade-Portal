@@ -1,8 +1,6 @@
-x = ['deep', 'dhyan', 'tarus', 'reed']
+from lib.get_overall_grades import populate
+from pprint import pprint
+import json
 
-potato = {}
-
-for y in x:
-    potato[y] = "awesome"
-
-print(potato)
+for x in json.loads(populate()):
+    print(x)
