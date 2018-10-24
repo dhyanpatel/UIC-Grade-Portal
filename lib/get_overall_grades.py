@@ -2,8 +2,8 @@ import xlrd
 import json
 
 
-def populate():
-    file_location = "./lib/final template.xlsx"
+def populate(file_location):
+    #file_location = "./lib/final template.xlsx"
     workbook = xlrd.open_workbook(file_location)
 
     sheets = workbook.nsheets
