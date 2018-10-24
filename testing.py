@@ -1,6 +1,6 @@
-from lib.get_xlsx import create_xlsx
+from lib.get_overall_grades import populate
+from pprint import pprint
+import json
 
-try:
-    create_xlsx()
-except TypeError:
-    print("Missing PDF Path and/or API Key in setup.json")
+for x in json.loads(populate()):
+    print(x)
