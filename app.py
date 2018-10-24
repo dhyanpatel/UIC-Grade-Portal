@@ -77,7 +77,7 @@ def post_instructor():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-    grades = json.loads(populate("./static/{}".format((file.filename).replace(" ", "_"))))
+    grades = json.loads(populate("{}{}".format(UPLOAD_FOLDER,(file.filename).replace(" ", "_"))))
 
     #db.reflect()
     #db.drop_all()
