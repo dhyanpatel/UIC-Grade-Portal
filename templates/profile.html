@@ -1,18 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile || {{ student_code }}</title>
-</head>
+<html>
+<title>Profile || {{ student_code }}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links
+  $("a").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+});
+</script>
 <body>
 
-<h1>{{ student_code }} - Grades</h1>
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="#labQuizzes" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Lab Quizzes</a>
+    <a href="#labGrades" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Lab Grades</a>
+    <a href="#programs" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Programs</a>
+    <a href="#zyante" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Zyante</a>
+    <a href="#iClickers" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">iClickers</a>
+    <a href="#midterm1" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Midterm 1</a>
+    <a href="#midterm2" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Midterm 2</a>
+    <a href="#final" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Final</a>
+    <a href="#overallGrade" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Overall Grade</a>
+  </div>
 
-{% for x in user.grades %}
-    {% if user.grades[x] != "" %}
-        <p>{{ x }} - {{ user.grades[x] }}</p>
-    {% endif %}
-{% endfor %}
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#home" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    <a href="#labQuizzes" class="w3-bar-item w3-button w3-padding-large">Lab Quizzes</a>
+    <a href="#labGrades" class="w3-bar-item w3-button w3-padding-large">Lab Grades</a>
+    <a href="#programs" class="w3-bar-item w3-button w3-padding-large">Programs</a>
+    <a href="#zyante" class="w3-bar-item w3-button w3-padding-large">Zyante</a>
+    <a href="#iClickers" class="w3-bar-item w3-button w3-padding-large">iClickers</a>
+    <a href="#midterm1" class="w3-bar-item w3-button w3-padding-large">Midterm 1</a>
+    <a href="#midterm2" class="w3-bar-item w3-button w3-padding-large">Midterm 2</a>
+    <a href="#final" class="w3-bar-item w3-button w3-padding-large">Final</a>
+    <a href="#overallGrade" class="w3-bar-item w3-button w3-padding-large">Overall Grade</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-red w3-center" style="padding:128px 16px" id="home">
+  <h1 class="w3-margin w3-jumbo">{{ student_code }} - Grades</h1>
+</header>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container" id="labQuizzes">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Lab Quizzes</h1>
+        {% for quiz in user.grades['Lab Quizzes'] %}
+            {% if user.grades['Lab Quizzes'][quiz] != "" %}
+                <h5 class="w3-padding-32"><b>{{ quiz }} :</b> {{ user.grades['Lab Quizzes'][quiz] }} Points</h5>
+            {%  endif %}
+        {% endfor %}
+      <p class="w3-text-grey"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Second Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" id="labGrades">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Lab Grades</h1>
+        {% for lab in user.grades['Lab Grades'] %}
+            {% if user.grades['Lab Grades'][lab] %}
+                <h5 class="w3-padding-32"><b>{{ lab }} :</b> {{ user.grades['Lab Grades'][lab] }}</h5>
+            {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Third Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container" id="programs">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Programs</h1>
+        {% for program in user.grades['Programs'] %}
+            {% if user.grades['Programs'][program] != "" %}
+                <h5 class="w3-padding-32"><b>{{ program }} :</b> {{ user.grades['Programs'][program] }}%</h5>
+            {%  endif %}
+        {% endfor %}
+      <p class="w3-text-grey"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Fourth Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" id="zyante">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Zyante</h1>
+        {% for zybook in user.grades['Zyante'] %}
+            {% if user.grades['Zyante'][zybook] %}
+                <h5 class="w3-padding-32"><b>{{ zybook }} :</b> {{ user.grades['Zyante'][zybook] }}%</h5>
+            {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Fifth Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container" id="iClickers">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>iClickers</h1>
+        {% for clicker in user.grades['iClickers'] %}
+            {% if user.grades['iClickers'][clicker] != "" %}
+                <h5 class="w3-padding-32"><b>{{ clicker }} :</b> {{ user.grades['iClickers'][clicker] }}%</h5>
+            {%  endif %}
+        {% endfor %}
+      <p class="w3-text-grey"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Sixth Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" id="midterm1">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Midterm 1</h1>
+        {% for midterm in user.grades['Midterm 1'] %}
+            {% if user.grades['Midterm 1'][midterm] %}
+                <h5 class="w3-padding-32"><b>{{ midterm }} :</b> {{ user.grades['Midterm 1'][midterm] }}%</h5>
+            {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Seventh Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container" id="midterm2">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Midterm 2</h1>
+        {% for midterm in user.grades['Midterm 2'] %}
+            {% if user.grades['Midterm 2'][midterm] != "" %}
+                <h5 class="w3-padding-32"><b>{{ midterm }} :</b> {{ user.grades['Midterm 2'][midterm] }}%</h5>
+            {%  endif %}
+        {% endfor %}
+      <p class="w3-text-grey"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Eighth Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" id="final">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Final</h1>
+        {% for final in user.grades['Final'] %}
+            {% if user.grades['Final'][final] %}
+                <h5 class="w3-padding-32"><b>{{ final }} :</b> {{ user.grades['Final'][final] }}%</h5>
+            {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Ninth Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container" id="overallGrade">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Overall Grade</h1>
+        {% for overall in user.grades['Overall Grade'] %}
+            {% if user.grades['Overall Grade'][overall] != "" %}
+                <h5 class="w3-padding-32"><b>{{ overall }} :</b> {{ user.grades['Overall Grade'][overall] }}%</h5>
+            {%  endif %}
+        {% endfor %}
+      <p class="w3-text-grey"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
 
 </body>
 </html>
