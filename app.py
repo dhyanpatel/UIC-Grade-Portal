@@ -8,7 +8,7 @@ import json
 app = Flask(__name__)
 
 # Database stuff
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://asgupert:ghLl1r3FnTG7qgPfntIb3qWbm8bsHiDF@tantor.db.elephantsql.com:5432/asgupert'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://zyvadgtq:9hq4_JBlzW8vbAp7b1NFT-LOtcBzZ246@nutty-custard-apple.db.elephantsql.com:5432/zyvadgtq'
 db = SQLAlchemy(app)
 
 
@@ -34,13 +34,13 @@ def index():
 @app.route('/profile/<student_code>')
 def profile(student_code):
     user = User.query.filter_by(hash = student_code).first()
-    return render_template('profile.html' , student_code = student_code, user = user)
+    return render_template('profile.html', student_code=student_code, user=user)
 
 
 @app.route('/post_student', methods = ['POST'])
 def post_student():
     student_code = request.form['student_code']
-    return redirect(url_for('profile', student_code = student_code))
+    return redirect(url_for('profile', student_code=student_code))
     # return render_template("profile.html", student_code = student_code)
 
 
