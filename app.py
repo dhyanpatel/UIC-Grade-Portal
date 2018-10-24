@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import request, redirect, url_for, render_template, flash
 from lib.get_overall_grades import populate
 from werkzeug.utils import secure_filename
+from jinja2.exceptions import UndefinedError
 import json, os
 
 UPLOAD_FOLDER = './static/'
@@ -11,8 +12,11 @@ ALLOWED_EXTENSIONS = set(['xlsx'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Database stuff
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://zyvadgtq:9hq4_JBlzW8vbAp7b1NFT-LOtcBzZ246@nutty-custard-apple.db.elephantsql.com:5432/zyvadgtq'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test@localhost/classTesting'
+
+with open('./lib/configuration.json', 'r') as f:
+    config = json.load(f)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = config['database_url']
 db = SQLAlchemy(app)
 
 
@@ -29,10 +33,10 @@ class User(db.Model):
     def __repr__(self):
         return '<Student {0}>'.format(self.hash)
 
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 
 @app.route('/')
@@ -42,8 +46,11 @@ def index():
 
 @app.route('/profile/<student_code>')
 def profile(student_code):
-    user = User.query.filter_by(hash = student_code).first()
-    return render_template('profile.html', student_code=student_code, user=user)
+    try:
+        user = User.query.filter_by(hash = student_code).first()
+        return render_template('profile.html', student_code=student_code, user=user)
+    except UndefinedError:
+        return "User Not Found"
 
 
 @app.route('/post_student', methods = ['POST'])
@@ -79,14 +86,14 @@ def post_instructor():
 
     grades = json.loads(populate("{}{}".format(UPLOAD_FOLDER,(file.filename).replace(" ", "_"))))
 
-    #db.reflect()
-    #db.drop_all()
-    #db.create_all()
+    # db.reflect()
+    # db.drop_all()
+    # db.create_all()
     for student in grades:
         db.session.delete(User.query.filter_by(hash=student).first())
         sqlStudent = User(student, grades[student])
         # sqlStudent = User.query.filter_by(hash=student).first()
-        sqlStudent.grades = grades[student]
+        # sqlStudent.grades = grades[student]
         db.session.add(sqlStudent)
         db.session.commit()
 
