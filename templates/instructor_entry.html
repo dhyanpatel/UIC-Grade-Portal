@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Instructor Login</title>
-</head>
-<body>
-    <form method = "post" action = "/post_instructor">
-        <label>Initiate Grade Update</label>
-        <input id = "testing" name = "testing" type = "grades" />
-        <input type = "submit"/>
+<!doctype html>
+<title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data action="/post_instructor">
+      <input type=file name=file>
+      <input type=submit value=Upload>
     </form>
-</body>
-</html>
