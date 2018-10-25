@@ -13,6 +13,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Database stuff
 
+
 with open('./lib/configuration.json', 'r') as f:
     config = json.load(f)
 
@@ -74,6 +75,9 @@ def post_instructor():
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
+        if request.form['password'] != config['instructor_password']:
+            return "Sorry, wrong password."
+
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
