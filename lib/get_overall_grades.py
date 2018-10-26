@@ -1,5 +1,6 @@
-import xlrd
-import json
+from collections import OrderedDict
+import xlrd, json
+
 
 
 def populate(file_location):
@@ -219,7 +220,8 @@ def populate(file_location):
     iClicker_AVG = round((iClicker_AVG / nrows), 2)
 
     # define the dictionary
-    students = {}
+
+    students = OrderedDict()
 
     # add vectors to the dictionary
     for student in range(len(code_NUM)):
