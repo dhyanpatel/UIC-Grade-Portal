@@ -18,6 +18,7 @@ with open('./lib/configuration.json', 'r') as f:
     config = json.load(f)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = config['database_url']
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test@localhost/classTesting'
 db = SQLAlchemy(app)
 
 
@@ -48,7 +49,7 @@ def index():
 @app.route('/profile/<student_code>')
 def profile(student_code):
     try:
-        user = User.query.filter_by(hash = student_code).first()
+        user = User.query.filter_by(hash=student_code).first()
         return render_template('profile.html', student_code=student_code, user=user)
     except UndefinedError:
         return "User Not Found"
@@ -99,7 +100,8 @@ def post_instructor():
         # sqlStudent = User.query.filter_by(hash=student).first()
         # sqlStudent.grades = grades[student]
         db.session.add(sqlStudent)
-        db.session.commit()
+
+    db.session.commit()
 
     return "Grades Updated. Success!"
 
