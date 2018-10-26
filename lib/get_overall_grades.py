@@ -9,7 +9,7 @@ def populate(file_location):
 
     sheets = workbook.nsheets
 
-    worksheet = workbook.sheet_by_index(1)
+    worksheet = workbook.sheet_by_index(0)
 
     nrows = worksheet.nrows
     ncols = worksheet.ncols

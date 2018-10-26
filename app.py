@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm.exc import UnmappedInstanceError
 from flask import request, redirect, url_for, render_template, flash
 from lib.get_overall_grades import populate
 from werkzeug.utils import secure_filename
@@ -95,7 +96,11 @@ def post_instructor():
     # db.drop_all()
     # db.create_all()
     for student in grades:
-        db.session.delete(User.query.filter_by(hash=student).first())
+        print(student)
+        try:
+            db.session.delete(User.query.filter_by(hash=student).first())
+        except UnmappedInstanceError:
+            pass
         sqlStudent = User(student, grades[student])
         # sqlStudent = User.query.filter_by(hash=student).first()
         # sqlStudent.grades = grades[student]
