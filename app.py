@@ -18,7 +18,7 @@ with open('./lib/configuration.json', 'r') as f:
     config = json.load(f)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = config['database_url']
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test@localhost/classTesting'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test@localhost/classTesting'
 db = SQLAlchemy(app)
 
 
