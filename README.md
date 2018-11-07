@@ -1,5 +1,5 @@
 # CS141_GradeLookup
-Allows students in CS141 to easily check their grades.
+A dynamically updated website powered by Flask, PostgreSQL, and Jinja2 used by Professor Dale Reed at UIC to send out grades to his CS141 classes. Entirely Cloud-based infrastructure allowing for easy scalability.
 
 ---
 
