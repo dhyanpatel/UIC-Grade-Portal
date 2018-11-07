@@ -1,18 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile || {{ student_code }}</title>
-</head>
+<html>
+<title>Profile || {{ student_code }}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+    .for-font-size .fa {
+    width: 50px; (arrording to font-size)
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links
+  $("a").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+});
+</script>
 <body>
 
-<h1>{{ student_code }} - Grades</h1>
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#home" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    {% for section in user.grades%}
+    <a href="#{{ section| replace(" ","_") }}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">{{ section }}</a>
+    {% endfor %}
+    <a href="#about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About</a>
+  </div>
 
-{% for x in user.grades %}
-    {% if user.grades[x] != "" %}
-        <p>{{ x }} - {{ user.grades[x] }}</p>
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#home" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    {% for section in user.grades %}
+    <a href="#{{ section| replace(" ", "_") }}" class="w3-bar-item w3-button w3-padding-large">{{ section }}</a>
+    {% endfor %}
+    <a href="#about" class="w3-bar-item w3-button w3-padding-large">About</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-red w3-center" style="padding:128px 16px" id="home">
+  <h1 class="w3-margin w3-jumbo">{{ student_code }} - Grades</h1>
+</header>
+
+
+
+{% for section in user.grades%}
+<!-- First Grid -->
+    {% if loop.index % 2 == 0 %}
+    <div class="w3-row-padding w3-padding-64 w3-container" id="{{ section| replace(" ", "_") }}">
+      <div class="w3-content">
+        <div class="w3-twothird">
+          <h1>{{ section }}</h1>
+            {% for subsection in user.grades[section] %}
+                {% if ((user.grades[section][subsection] != " Points") and (user.grades[section][subsection] != "%")) %}
+                    <h5 class="w3-padding-32"><b>{{ subsection }} :</b> {{ user.grades[section][subsection] }}</h5>
+                {%  endif %}
+            {% endfor %}
+          <p class="w3-text-grey"></p>
+        </div>
+      </div>
+    </div>
+
+    {% else %}
+    <!-- Second Grid -->
+    <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" id="{{ section| replace(" ", "_") }}">
+      <div class="w3-content">
+        <div class="w3-twothird">
+          <h1>{{ section }}</h1>
+            {% for subsection in user.grades[section] %}
+               {% if ((user.grades[section][subsection] != " Points") and (user.grades[section][subsection] != "%")) %}
+                    <h5 class="w3-padding-32"><b>{{ subsection }} :</b> {{ user.grades[section][subsection] }}</h5>
+               {%  endif %}
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+
     {% endif %}
 {% endfor %}
+
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity" id="about">
+  <div class="w3-xlarge w3-padding-32">
+    <h1>Created By</h1>
+    <p class="for-font-size"><a href="https://www.linkedin.com/in/dhyan-patel/"><span class="fa fa-linkedin-square" style="font-size:48px;color:#007BB6"></span></a>Dhyan Patel</p>
+    <p class="for-font-size"><a href="https://www.linkedin.com/in/deep-patel-0703a1137/"><span class="fa fa-linkedin-square" style="font-size:48px;color:#007BB6"></span></a>Deep Patel</p>
+
+
+ </div>
+ <p>Powered by Flask and PostgreSQL</p>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
 
 </body>
 </html>

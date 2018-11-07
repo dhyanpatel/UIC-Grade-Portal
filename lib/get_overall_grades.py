@@ -1,5 +1,5 @@
-import xlrd
-import json
+from collections import OrderedDict
+import xlrd, json
 
 
 def usercodemath(uin, lastName):
@@ -25,9 +25,9 @@ def usercodemath(uin, lastName):
         return None
 
 
+def populate(file_location):
+    #file_location = "./lib/final template.xlsx"
 
-def populate():
-    file_location = "./lib/final template.xlsx"
     workbook = xlrd.open_workbook(file_location)
 
     worksheet = workbook.sheet_by_index(0)
@@ -241,10 +241,12 @@ def populate():
     iClicker_AVG = round((iClicker_AVG / nrows), 2)
 
     # define the dictionary
-    students = {}
+
+    students = OrderedDict()
 
     # add vectors to the dictionary
     for student in range(len(code_NUM)):
+      
         if code_NUM[student] == "":
             continue
         students[code_NUM[student]] = {
@@ -326,6 +328,88 @@ def populate():
                 'Class Avg -> Overall %': overall_ClassPER,
             }
         }
+
+        if code_NUM[student] != "":
+            students[code_NUM[student]] = {
+                'Lab Quizzes': {
+                    'Lab Quiz 1': str(lab1_Quiz[student]) + " Points",
+                    'Lab Quiz 2': str(lab2_Quiz[student]) + " Points",
+                    'Lab Quiz 3': str(lab3_Quiz[student]) + " Points",
+                    'Lab Quiz 4': str(lab4_Quiz[student]) + " Points",
+                    'Lab Quiz 6': str(lab6_Quiz[student]) + " Points",
+                    'Lab Quiz 7': str(lab7_Quiz[student]) + " Points",
+                    'Lab Quiz 8': str(lab8_Quiz[student]) + " Points",
+                    'Lab Quiz 9': str(lab9_Quiz[student]) + " Points",
+                    'Lab Quiz 11': str(lab11_Quiz[student]) + " Points",
+                    'Lab Quiz 12': str(lab12_Quiz[student]) + " Points",
+                    'Lab Quiz 13': str(lab13_Quiz[student]) + " Points",
+                    'Lab Quiz 14': str(lab14_Quiz[student]) + " Points",
+                    'Lab Quizzes Average': str(lab_Quizes_Avg[student]) + " Points",
+                    '5% of Lab Quizzes Average': str(lab_Quizes_PER_Score[student]) + " Points",
+                    'Lab Quizzes Class Average': str(class_Avg_LabQuizes) + " Points",
+                },
+                'Lab Grades': {
+                    'Lab 1': str(lab1_inClass[student]) + " Points",
+                    'Lab 2': str(lab2_inClass[student]) + " Points",
+                    'Lab 3': str(lab3_inClass[student]) + " Points",
+                    'Lab 4': str(lab4_inClass[student]) + " Points",
+                    'Lab 6': str(lab6_inClass[student]) + " Points",
+                    'Lab 7': str(lab7_inClass[student]) + " Points",
+                    'Lab 8': str(lab8_inClass[student]) + " Points",
+                    'Lab 9': str(lab9_inClass[student]) + " Points",
+                    'Lab 11': str(lab11_inClass[student]) + " Points",
+                    'Lab 12': str(lab12_inClass[student]) + " Points",
+                    'Lab 13': str(lab13_inClass[student]) + " Points",
+                    'Lab 14': str(lab14_inClass[student]) + " Points",
+                    'Lab Grades Average': str(lab_inClass_Avg[student]) + " Points",
+                    '5% of Lab Grades Average': str(lab_InClass_5PER_Score[student]) + " Points",
+                    'Lab Grades Class Average': str(class_Avg_labInClass) + " Points",
+                },
+                'Programs': {
+                    'Program 1': str(program1[student]) + "%",
+                    'Program 2': str(program2[student]) + "%",
+                    'Program 3': str(program3[student]) + "%",
+                    'Program 4': str(program4[student]) + "%",
+                    'Program 5': str(program5[student]) + "%",
+                    'Program 6': str(program6[student]) + "%",
+                    'All programs Average': str(avg_4_All_Programs[student]) + "%",
+                    '30% of Program Grades': str(programs_30PER_score[student]) + "%",
+                },
+                'Zyante': {
+                    'Zyante Percentage Done': str(zyante_PER_Done[student]) + "%",
+                    '10% of Zyante Percentage Done': str(zyante_10PER_score[student]) + "%",
+                    'Class Average in Zyante Completion': str(zyante_ClassAvg) + "%",
+                },
+                'iClickers': {
+                    'iClickers Percentage': str(iClickers[student]) + "%",
+                    '5% of iClickers Grade': str(iClickers_5PER_Score[student]) + "%",
+                    'Class Average in iClickers': str(iClicker_AVG) + "%",
+                },
+                'Midterm 1': {
+                    'Midterm 1 Written': str(midterm1_inClass[student]) + "%",
+                    'Midterm 1 Lab': str(midterm1_Lab[student]) + " Points",
+                    'Midterm 1 Total Percentage': str(midterm1_Total[student]) + "%",
+                    '10% of Midterm 1 Grade': str(midterm1_10PER_Score[student]) + "%",
+                },
+                'Midterm 2': {
+                    'Midterm 2 Written': str(midterm2_inClass[student]) + "%",
+                    'Midterm 2 Lab': str(midterm2_Lab[student]) + " Points",
+                    'Midterm 2 Total Percentage': str(midterm2_Total[student]) + "%",
+                    '15% of Midterm 2 Grade': str(midterm2_15PER_Score[student]) + "%",
+                },
+                'Final': {
+                    'Final Written': str(final_inClass[student]) + "%",
+                    'Final Lab': str(final_Lab[student]) + " Points",
+                    'Final Total Percentage': str(final_Total[student]) + "%",
+                    '20% of Final Grade': str(final_20PER_Score[student]) + "%",
+                },
+                'Overall Grade': {
+                    'Overall Percentage in Class': str(overallPER_in_Class[student]) + "%",
+                    'Final Grade in Class': str(final_grade_inClass[student]),
+                    'Average Percentage in Class': str(overall_ClassPER) + "%",
+                }
+            }
+
 
     cs141grade = json.dumps(students)
 
