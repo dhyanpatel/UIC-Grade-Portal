@@ -2,12 +2,33 @@ from collections import OrderedDict
 import xlrd, json
 
 
+def usercodemath(uin, lastName):
+    file_location = "C:\\Users\\Deepp\\PycharmProjects\\CS141_GradeLookup\\lib\\final template.xlsx"
+    worksheet = xlrd.open_workbook(file_location).sheet_by_index(1)
+    code_NUM = []
+
+    for a in range(worksheet.nrows):
+        code_NUM.append(worksheet.cell_value(a, 0))
+
+    codeInt = (uin%1000) + (uin%10) + int((uin%1000000)/1000)
+
+    lastName = lastName.upper()
+
+    codeNUM = str(codeInt) + lastName[0] + lastName[1].lower()
+    codeNUM2 = str(codeInt) + lastName[0]
+
+    if codeNUM in code_NUM:
+        return codeNUM
+    elif codeNUM2 in code_NUM:
+        return codeNUM2
+    else:
+        return None
+
 
 def populate(file_location):
     #file_location = "./lib/final template.xlsx"
-    workbook = xlrd.open_workbook(file_location)
 
-    sheets = workbook.nsheets
+    workbook = xlrd.open_workbook(file_location)
 
     worksheet = workbook.sheet_by_index(0)
 
@@ -225,6 +246,89 @@ def populate(file_location):
 
     # add vectors to the dictionary
     for student in range(len(code_NUM)):
+      
+        if code_NUM[student] == "":
+            continue
+        students[code_NUM[student]] = {
+            'lab Quizes': {
+                'lab1 Quiz': lab1_Quiz[student],
+                'lab2 Quiz': lab2_Quiz[student],
+                'lab3 Quiz': lab3_Quiz[student],
+                'lab4 Quiz': lab4_Quiz[student],
+                'lab6 Quiz': lab6_Quiz[student],
+                'lab7 Quiz': lab7_Quiz[student],
+                'lab8 Quiz': lab8_Quiz[student],
+                'lab9 Quiz': lab9_Quiz[student],
+                'lab11 Quiz': lab11_Quiz[student],
+                'lab12 Quiz': lab12_Quiz[student],
+                'lab13 Quiz': lab13_Quiz[student],
+                'lab14 Quiz': lab14_Quiz[student],
+                'lab Quizzes Avg': lab_Quizes_Avg[student],
+                'lab Quizzes 5% Score': lab_Quizes_PER_Score[student],
+                'class Avg -> LabQuizzes': class_Avg_LabQuizes,
+            },
+            'lab grades': {
+                'lab1 inClass': lab1_inClass[student],
+                'lab2 inClass': lab2_inClass[student],
+                'lab3 inClass': lab3_inClass[student],
+                'lab4 inClass': lab4_inClass[student],
+                'lab6 inClass': lab6_inClass[student],
+                'lab7 inClass': lab7_inClass[student],
+                'lab8 inClass': lab8_inClass[student],
+                'lab9 inClass': lab9_inClass[student],
+                'lab11 inClass': lab11_inClass[student],
+                'lab12 inClass': lab12_inClass[student],
+                'lab13 inClass': lab13_inClass[student],
+                'lab14 inClass': lab14_inClass[student],
+                'labs InClass 5% Score': lab_InClass_5PER_Score[student],
+                'labs inClass Avg': lab_inClass_Avg[student],
+                'class Avg -> inClass Labs': class_Avg_labInClass,
+            },
+            'Programs': {
+                'Program 1': program1[student],
+                'Program 2': program2[student],
+                'Program 3': program3[student],
+                'Program 4': program4[student],
+                'Program 5': program5[student],
+                'Program 6': program6[student],
+                'All programs Avg': avg_4_All_Programs[student],
+                '30% of all Programs': programs_30PER_score[student],
+            },
+            'Zyante': {
+                'Zyante % Done': zyante_PER_Done[student],
+                '10% of Zyante % Done': zyante_10PER_score[student],
+                'Class Avg -> Zyante completion': zyante_ClassAvg,
+            },
+            'iClickers': {
+                'iClickers %': iClickers[student],
+                '5% of iClickers': iClickers_5PER_Score[student],
+                'Class Avg -> iClickers %': iClicker_AVG,
+            },
+            'Midterm 1': {
+                'Midterm1 inClass': midterm1_inClass[student],
+                'Midterm1 Lab': midterm1_Lab[student],
+                'Midterm1 Total %': midterm1_Total[student],
+                '10% of Midterm1': midterm1_10PER_Score[student],
+            },
+            'Midterm 2': {
+                'Midterm2 inClass': midterm2_inClass[student],
+                'Midterm2 Lab': midterm2_Lab[student],
+                'Midterm2 Total %': midterm2_Total[student],
+                '15% of Midterm2': midterm2_15PER_Score[student],
+            },
+            'Final': {
+                'Final inClass': final_inClass[student],
+                'Final Lab': final_Lab[student],
+                'Final Total': final_Total[student],
+                '20% of Final': final_20PER_Score[student],
+            },
+            'Overall Grade': {
+                'Overall % in class': overallPER_in_Class[student],
+                'Final grade in class': final_grade_inClass[student],
+                'Class Avg -> Overall %': overall_ClassPER,
+            }
+        }
+
         if code_NUM[student] != "":
             students[code_NUM[student]] = {
                 'Lab Quizzes': {
@@ -310,3 +414,6 @@ def populate(file_location):
     cs141grade = json.dumps(students)
 
     return cs141grade
+
+
+print(usercodemath(662500522, "Tdonkelberry"))
