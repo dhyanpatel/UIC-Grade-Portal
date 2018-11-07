@@ -3,8 +3,12 @@ import xlrd, json
 
 
 def usercodemath(uin, lastName):
-    file_location = "C:\\Users\\Deepp\\PycharmProjects\\CS141_GradeLookup\\lib\\final template.xlsx"
-    worksheet = xlrd.open_workbook(file_location).sheet_by_index(1)
+    with open("./lib/configuration.json", 'r') as f:
+        config = json.load(f)
+        file_location = config["excel_file_path"]
+
+    #file_location = "C:\\Users\\Deepp\\PycharmProjects\\CS141_GradeLookup\\lib\\final template.xlsx"
+    worksheet = xlrd.open_workbook(file_location).sheet_by_index(0)
     code_NUM = []
 
     for a in range(worksheet.nrows):
@@ -26,14 +30,19 @@ def usercodemath(uin, lastName):
 
 
 def populate(file_location):
-    #file_location = "./lib/final template.xlsx"
+    with open('./lib/configuration.json', 'r+') as f:
+        config = json.load(f)
+        config["excel_file_path"] = file_location
+        f.seek(0)
+        json.dump(config, f, indent=4)
+        f.truncate()
+
 
     workbook = xlrd.open_workbook(file_location)
 
     worksheet = workbook.sheet_by_index(0)
 
     nrows = worksheet.nrows
-    ncols = worksheet.ncols
 
     code_NUM = []
     lab1_Quiz = []
@@ -415,5 +424,3 @@ def populate(file_location):
 
     return cs141grade
 
-
-print(usercodemath(662500522, "Tdonkelberry"))
