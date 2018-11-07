@@ -16,10 +16,19 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     }
 </style>
 <body>
-<header class="w3-container w3-grey w3-center" style="padding:128px 16px">
+<header class="w3-container w3-dark-grey w3-center" style="padding:128px 16px">
     <form method = "post" action = "/post_student">
         <label>User Code:</label>
         <input id = "student_code" name = "student_code" type = "text" />
+        <input type = "submit"/>
+    </form>
+</header>
+<header class="w3-container w3-grey w3-center" style="padding:128px 16px">
+    <form method = "post" action = "/post_find_student">
+        <label>UIN:</label>
+        <input id = "uin" name = "uin" type = "text" />
+        <label>Last Name:</label>
+        <input id = "last_name" name = "last_name" type = "text" />
         <input type = "submit"/>
     </form>
 </header>

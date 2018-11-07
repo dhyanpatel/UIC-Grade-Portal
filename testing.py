@@ -1,5 +1,10 @@
+from lib.get_overall_grades import populate
+import json
 from pprint import pprint
 
-x = {"Lab Quizzes": {"Lab Quiz 1": 0.0, "Lab Quiz 2": 2.0, "Lab Quiz 3": 2.0, "Lab Quiz 4": 2.0, "Lab Quiz 6": 2.0, "Lab Quiz 7": "", "Lab Quiz 8": "", "Lab Quiz 9": "", "Lab Quiz 11": "", "Lab Quiz 12": "", "Lab Quiz 13": "", "Lab Quiz 14": "", "Lab Quizzes Average": 2.0, "5% of Lab Quizzes Average": 3.3, "Lab Quizzes Class Average": 1.12}, "Lab Grades": {"Lab 1": 3.0, "Lab 2": 3.0, "Lab 3": 3.0, "Lab 4": 2.0, "Lab 6": 3.0, "Lab 7": "", "Lab 8": "", "Lab 9": "", "Lab 11": "", "Lab 12": "", "Lab 13": "", "Lab 14": "", "Lab Grades Average": 3.0, "5% of Lab Grades Average": 7.5, "Lab Grades Class Average": 2.32}, "Programs": {"Program 1": 100.0, "Program 2": "", "Program 3": "", "Program 4": "", "Program 5": "", "Program 6": "", "All programs Average": 100.0, "30% of Program Grades": 30.0}, "Zyante": {"Zyante Percentage Done": 100.0, "10% of Zyante Percentage Done": 10.0, "Class Average in Zyante Completion": 70.64}, "iClickers": {"iClickers Percentage": 74.19, "5% of iClickers Grade": 3.71, "Class Average in iClickers": 63.03}, "Midterm 1": {"Midterm 1 Written": 80.0, "Midterm 1 Lab": 25.0, "Midterm 1 Total Percentage": 85.0, "10% of Midterm 1 Grade": 8.5}, "Midterm 2": {"Midterm 2 Written": 0.0, "Midterm 2 Lab": 0.0, "Midterm 2 Total Percentage": 0.0, "15% of Midterm 2 Grade": 0.0}, "Final": {"Final Written": 0.0, "Final Lab": 0.0, "Final Total Percentage": 0.0, "20% of Final Grade": 0.0}, "Overall Grade": {"Overall Percentage in Class": 96.99, "Final Grade in Class": "A", "Average Percentage in Class": 75.34}}
-
-pprint(x)
+with open('./lib/configuration.json', 'r+') as f:
+    config = json.load(f)
+    config["excel_file_path"] = "D:\\Personal Projects\\PycharmProjects\\CS141_GradeLookup\\static\\toUpload.xlsx"
+    f.seek(0)
+    json.dump(config, f, indent=4)
+    f.truncate()

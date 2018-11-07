@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm.exc import UnmappedInstanceError
 from flask import request, redirect, url_for, render_template, flash
-from lib.get_overall_grades import populate
+from lib.get_overall_grades import populate, usercodemath
 from werkzeug.utils import secure_filename
 from jinja2.exceptions import UndefinedError
 import json, os
+from pprint import pprint
 
 UPLOAD_FOLDER = './static/'
 ALLOWED_EXTENSIONS = set(['xlsx'])
@@ -17,8 +19,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 with open('./lib/configuration.json', 'r') as f:
     config = json.load(f)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = config['database_url']
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test@localhost/classTesting'
+# app.config['SQLALCHEMY_DATABASE_URI'] = config['database_url']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test@localhost/classTesting'
 db = SQLAlchemy(app)
 
 
@@ -48,11 +50,11 @@ def index():
 
 @app.route('/profile/<student_code>')
 def profile(student_code):
-    try:
-        user = User.query.filter_by(hash=student_code).first()
+    user = User.query.filter_by(hash=student_code).first()
+    if user != None:
         return render_template('profile.html', student_code=student_code, user=user)
-    except UndefinedError:
-        return "User Not Found"
+    else:
+        return "User {} Not Found".format(student_code)
 
 
 @app.route('/post_student', methods = ['POST'])
@@ -60,6 +62,13 @@ def post_student():
     student_code = request.form['student_code']
     return redirect(url_for('profile', student_code=student_code))
     # return render_template("profile.html", student_code = student_code)
+
+
+@app.route('/post_find_student' , methods = ['POST'])
+def post_find_student():
+    student_code = usercodemath(int(request.form['uin']), request.form['last_name'])
+    return redirect(url_for('profile', student_code=student_code))
+
 
 
 @app.route('/instructor_portal', methods=['GET', 'POST'])
@@ -91,11 +100,11 @@ def post_instructor():
 
     grades = json.loads(populate("{}{}".format(UPLOAD_FOLDER,(file.filename).replace(" ", "_"))))
 
-    # db.reflect()
-    # db.drop_all()
-    # db.create_all()
     for student in grades:
-        db.session.delete(User.query.filter_by(hash=student).first())
+        try:
+            db.session.delete(User.query.filter_by(hash=student).first())
+        except UnmappedInstanceError:
+            pass
         sqlStudent = User(student, grades[student])
         # sqlStudent = User.query.filter_by(hash=student).first()
         # sqlStudent.grades = grades[student]
